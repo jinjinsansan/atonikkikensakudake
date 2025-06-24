@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Search, Calendar, Filter, X, Eye, Edit3, Trash2, Save, ChevronLeft, ChevronRight, MessageCircle } from 'lucide-react';
+import { Search, Calendar, Filter, X, Eye, Edit3, Trash2, Save, ChevronLeft, ChevronRight } from 'lucide-react';
 import { getCurrentUser } from '../lib/deviceAuth';
 
 interface JournalEntry {
@@ -813,26 +813,6 @@ const DiarySearchPage: React.FC = () => {
                   <h4 className="font-jp-semibold text-gray-700 mb-2">気づき</h4>
                   <p className="text-gray-600 text-sm font-jp-normal leading-relaxed break-words">
                     {highlightText(entry.realization, searchValue)}
-                  </p>
-                </div>
-              </div>
-
-              {entry.emotion === '無価値感' && (
-                <div className="flex flex-wrap gap-2 sm:gap-6 text-sm bg-gray-50 rounded-lg p-3">
-                  <div className="flex items-center space-x-2">
-                    <span className="text-gray-500 font-jp-medium">自己肯定感:</span>
-                    <span className="font-jp-semibold text-blue-600">
-                      {entry.selfEsteemScore}
-                    </span>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <span className="text-gray-500 font-jp-medium">無価値感:</span>
-                    <span className="font-jp-semibold text-red-600">
-                      {entry.worthlessnessScore}
-                    </span>
-                  </div>
-                </div>
-              )}
             </div>
           ))}
             </div>
