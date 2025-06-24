@@ -359,6 +359,48 @@ const DiarySearchPage: React.FC = () => {
                   </div>
                 )}
               </div>
+
+              {/* カウンセラーメモ表示 */}
+              {entry.counselor_memo && entry.counselor_memo.trim() !== '' && (
+                <div className="mt-4 bg-blue-50 rounded-lg p-4 border border-blue-200">
+                  <div className="flex items-start space-x-3">
+                    <MessageCircle className="w-5 h-5 text-blue-600 mt-0.5 flex-shrink-0" />
+                    <div className="flex-1">
+                      <div className="flex items-center space-x-2 mb-2">
+                        <span className="font-jp-bold text-blue-900 text-sm">
+                          {entry.assigned_counselor || 'カウンセラー'}からのコメント
+                        </span>
+                      </div>
+                      <div className="bg-white rounded-lg p-3 border border-blue-200">
+                        <p className="text-blue-800 font-jp-normal text-sm leading-relaxed">
+                          {entry.counselor_memo}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* カウンセラーメモ表示 */}
+              {entry.counselor_memo && entry.counselor_memo.trim() !== '' && (
+                <div className="mt-4 bg-blue-50 rounded-lg p-4 border border-blue-200">
+                  <div className="flex items-start space-x-3">
+                    <MessageCircle className="w-5 h-5 text-blue-600 mt-0.5 flex-shrink-0" />
+                    <div className="flex-1">
+                      <div className="flex items-center space-x-2 mb-2">
+                        <span className="font-jp-bold text-blue-900 text-sm">
+                          {entry.assigned_counselor || 'カウンセラー'}からのコメント
+                        </span>
+                      </div>
+                      <div className="bg-white rounded-lg p-3 border border-blue-200">
+                        <p className="text-blue-800 font-jp-normal text-sm leading-relaxed">
+                          {entry.counselor_memo}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
 
             {/* 感情選択 */}
@@ -809,6 +851,27 @@ const DiarySearchPage: React.FC = () => {
                     <span className="font-jp-semibold text-red-600">
                       {entry.worthlessnessScore}
                     </span>
+                  </div>
+                </div>
+              )}
+
+              {/* カウンセラーメモ表示 */}
+              {entry.counselor_memo && entry.counselor_memo.trim() !== '' && (
+                <div className="mt-4 bg-blue-50 rounded-lg p-4 border border-blue-200">
+                  <div className="flex items-start space-x-3">
+                    <MessageCircle className="w-5 h-5 text-blue-600 mt-0.5 flex-shrink-0" />
+                    <div className="flex-1">
+                      <div className="flex items-center space-x-2 mb-2">
+                        <span className="font-jp-bold text-blue-900 text-sm">
+                          {entry.assigned_counselor || 'カウンセラー'}からのコメント
+                        </span>
+                      </div>
+                      <div className="bg-white rounded-lg p-3 border border-blue-200">
+                        <p className="text-blue-800 font-jp-normal text-sm leading-relaxed">
+                          {entry.counselor_memo}
+                        </p>
+                      </div>
+                    </div>
                   </div>
                 </div>
               )}

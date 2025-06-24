@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { Calendar, Plus, ChevronLeft, ChevronRight, Share2 } from 'lucide-react';
+import { Calendar, Plus, ChevronLeft, ChevronRight, Share2, MessageCircle, User } from 'lucide-react';
 import { getCurrentUser } from '../lib/deviceAuth';
 
 const DiaryPage = () => {
   const currentUser = getCurrentUser();
+  const [recentEntries, setRecentEntries] = useState([]);
   const [formData, setFormData] = useState({
     date: new Date().toISOString().split('T')[0],
     event: '',
@@ -12,6 +13,25 @@ const DiaryPage = () => {
     worthlessnessScore: 50,
     realization: ''
   });
+
+  // 最近の日記を読み込み（カウンセラーメモ表示用）
+  React.useEffect(() => {
+    const loadRecentEntries = () => {
+      try {
+        const savedEntries = localStorage.getItem('journalEntries');
+        if (savedEntries) {
+          const entries = JSON.parse(savedEntries);
+          // 最新5件を取得
+          const recent = entries.slice(0, 5);
+          setRecentEntries(recent);
+        }
+      } catch (error) {
+        console.error('日記読み込みエラー:', error);
+      }
+    };
+
+    loadRecentEntries();
+  }, []);
 
   // 無価値感スコア用の状態
   const [worthlessnessScores, setWorthlessnessScores] = useState({
@@ -616,6 +636,64 @@ const DiaryPage = () => {
           <span className="text-green-800 font-jp-medium text-sm">ローカル保存モード</span>
         </div>
       </div>
+
+      {/* カウンセラーからのコメント表示エリア */}
+      {recentEntries.length > 0 && (
+        <div className="w-full max-w-2xl mx-auto px-2 pb-8">
+          <div className="bg-white rounded-xl shadow-lg p-6">
+            <div className="flex items-center space-x-3 mb-6">
+              <MessageCircle className="w-6 h-6 text-blue-600" />
+              <h2 className="text-xl font-jp-bold text-gray-900">カウンセラーからのコメント</h2>
+            </div>
+            
+            <div className="space-y-4">
+              {recentEntries.map((entry) => {
+                // カウンセラーメモがある場合のみ表示
+                if (!entry.counselor_memo || entry.counselor_memo.trim() === '') {
+                  return null;
+                }
+                
+                return (
+                  <div key={entry.id} className="bg-blue-50 rounded-lg p-4 border border-blue-200">
+                    <div className="flex items-start space-x-3">
+                      <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0">
+                        <User className="w-4 h-4 text-blue-600" />
+                      </div>
+                      <div className="flex-1">
+                        <div className="flex items-center space-x-2 mb-2">
+                          <span className="font-jp-bold text-blue-900 text-sm">
+                            {entry.assigned_counselor || 'カウンセラー'}
+                          </span>
+                          <span className="text-blue-600 text-xs">
+                            {new Date(entry.date).toLocaleDateString('ja-JP')}の日記について
+                          </span>
+                        </div>
+                        <div className="bg-white rounded-lg p-3 border border-blue-200">
+                          <p className="text-blue-800 font-jp-normal text-sm leading-relaxed">
+                            {entry.counselor_memo}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                );
+              }).filter(Boolean)}
+              
+              {recentEntries.every(entry => !entry.counselor_memo || entry.counselor_memo.trim() === '') && (
+                <div className="text-center py-8">
+                  <MessageCircle className="w-12 h-12 text-gray-300 mx-auto mb-4" />
+                  <h3 className="text-lg font-jp-medium text-gray-500 mb-2">
+                    まだコメントがありません
+                  </h3>
+                  <p className="text-gray-400 font-jp-normal text-sm">
+                    カウンセラーからのコメントがあると、ここに表示されます
+                  </p>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
